@@ -276,8 +276,8 @@ export default function Home() {
           logoAlt="Despa&co"
           items={navItems}
           activeHref={activeSection}
-          baseColor="#09090b"
-          pillColor="#09090b"
+          baseColor="#ffffff"
+          pillColor="#000000"
           hoveredPillTextColor="#ffffff"
           pillTextColor="#71717a"
           theme="light"
@@ -610,7 +610,7 @@ export default function Home() {
                   required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full px-4 py-3 text-[14px] bg-zinc-50 border border-zinc-200/80 rounded-2xl text-zinc-900 placeholder:text-zinc-300 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all"
+                  className="w-full px-4 py-3 text-[14px] bg-zinc-100/50 border border-zinc-200 rounded-2xl text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all shadow-sm"
                   placeholder="Votre nom"
                 />
                 <input
@@ -618,7 +618,7 @@ export default function Home() {
                   required
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full px-4 py-3 text-[14px] bg-zinc-50 border border-zinc-200/80 rounded-2xl text-zinc-900 placeholder:text-zinc-300 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all"
+                  className="w-full px-4 py-3 text-[14px] bg-zinc-100/50 border border-zinc-200 rounded-2xl text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all shadow-sm"
                   placeholder="Votre email"
                 />
               </div>
@@ -626,7 +626,7 @@ export default function Home() {
               <select
                 value={form.service}
                 onChange={(e) => setForm({ ...form, service: e.target.value })}
-                className="w-full px-4 py-3 text-[14px] bg-zinc-50 border border-zinc-200/80 rounded-2xl text-zinc-900 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all appearance-none cursor-pointer"
+                className="w-full px-4 py-3 text-[14px] bg-zinc-100/50 border border-zinc-200 rounded-2xl text-zinc-900 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all appearance-none cursor-pointer shadow-sm"
               >
                 <option value="">Type de service</option>
                 <option value="saas">SaaS / Plateforme</option>
@@ -641,7 +641,7 @@ export default function Home() {
                 rows={4}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="w-full px-4 py-3 text-[14px] bg-zinc-50 border border-zinc-200/80 rounded-2xl text-zinc-900 placeholder:text-zinc-300 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all resize-none"
+                className="w-full px-4 py-3 text-[14px] bg-zinc-100/50 border border-zinc-200 rounded-2xl text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all resize-none shadow-sm"
                 placeholder="Décrivez votre projet..."
               />
 
