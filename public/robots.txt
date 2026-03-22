@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tismodev.com/sitemap.xml
-Sitemap: https://www.tismodev.com/sitemap.xml
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://despa.co/sitemap.xml
