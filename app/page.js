@@ -17,7 +17,7 @@ import {
 import { Marquee } from '@/components/ui/marquee';
 import PillNav from '@/components/PillNav';
 
-const Antigravity = lazy(() => import('@/components/Antigravity'));
+import Particles from '@/components/Particles';
 
 
 /* ═══════════════════════════════════════════════════════
@@ -378,29 +378,21 @@ export default function Home() {
       </AnimatePresence>
 
 
-      {/* ════════════════ HERO + ANTIGRAVITY ════════════════ */}
-      <section id="hero" className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden">
-        {/* Antigravity 3D background */}
+      {/* ════════════════ HERO + PARTICLES ════════════════ */}
+      <section id="hero" className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden bg-zinc-950">
+        {/* Particles background */}
         <div className="absolute inset-0 z-0">
-          <Suspense fallback={null}>
-            <Antigravity
-              count={250}
-              magnetRadius={6}
-              ringRadius={8}
-              waveSpeed={0.3}
-              waveAmplitude={0.8}
-              particleSize={1.2}
-              lerpSpeed={0.04}
-              color="#d4d4d8"
-              autoAnimate
-              particleVariance={1.2}
-              rotationSpeed={0.05}
-              depthFactor={0.8}
-              pulseSpeed={2}
-              particleShape="capsule"
-              fieldStrength={8}
-            />
-          </Suspense>
+          <Particles
+            particleColors={['#ffffff']}
+            particleCount={200}
+            particleSpread={10}
+            speed={0.1}
+            particleBaseSize={100}
+            moveParticlesOnHover
+            alphaParticles={false}
+            disableRotation={false}
+            pixelRatio={1}
+          />
         </div>
 
         {/* Content */}
@@ -414,12 +406,12 @@ export default function Home() {
               Digital Agency
             </p>
 
-            <h1 className="text-[2.25rem] sm:text-[3.25rem] md:text-[4rem] font-semibold leading-[1.05] tracking-[-0.03em] text-zinc-900 mb-6">
+            <h1 className="text-[2.25rem] sm:text-[3.25rem] md:text-[4rem] font-semibold leading-[1.05] tracking-[-0.03em] text-white mb-6">
               L'ingénierie digitale
               <br />
               au service de la
               <br />
-              <span className="text-zinc-300">restauration.</span>
+              <span className="text-zinc-500">restauration.</span>
             </h1>
 
             <p className="text-[15px] sm:text-[17px] text-zinc-400 max-w-md mx-auto mb-10 leading-relaxed font-light">
@@ -430,13 +422,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
                 href="#contact"
-                className="w-full sm:w-auto px-7 py-3 text-[14px] font-medium text-white bg-zinc-900 rounded-full hover:bg-zinc-800 active:scale-[0.97] transition-all"
+                className="w-full sm:w-auto px-7 py-3 text-[14px] font-medium text-black bg-white rounded-full hover:bg-zinc-200 active:scale-[0.97] transition-all"
               >
                 Démarrer un projet →
               </a>
               <a
                 href="#processus"
-                className="w-full sm:w-auto px-7 py-3 text-[14px] font-medium text-zinc-500 border border-zinc-200 rounded-full hover:bg-zinc-50 hover:text-zinc-900 active:scale-[0.97] transition-all"
+                className="w-full sm:w-auto px-7 py-3 text-[14px] font-medium text-zinc-300 border border-zinc-700/50 rounded-full hover:bg-zinc-900 hover:text-white active:scale-[0.97] transition-all"
               >
                 Comment ça marche
               </a>
