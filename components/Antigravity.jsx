@@ -99,6 +99,12 @@ function Particles({
     if (rotationSpeed && meshRef.current.parent) {
       meshRef.current.rotation.y += rotationSpeed * delta;
     }
+
+    // Mouse interaction
+    const targetX = (_.pointer.x * fieldStrength) * 0.3;
+    const targetY = (_.pointer.y * fieldStrength) * 0.3;
+    meshRef.current.position.x += (targetX - meshRef.current.position.x) * lerpSpeed;
+    meshRef.current.position.y += (targetY - meshRef.current.position.y) * lerpSpeed;
   });
 
   return (

@@ -16,8 +16,12 @@ import {
 } from 'react-icons/si';
 import { Marquee } from '@/components/ui/marquee';
 import PillNav from '@/components/PillNav';
-
+import SpotlightCard from '@/components/SpotlightCard';
+import LightRays from '@/components/LightRays';
 import Particles from '@/components/Particles';
+
+// Lazy load Antigravity for performance
+const Antigravity = lazy(() => import('@/components/Antigravity'));
 
 
 /* ═══════════════════════════════════════════════════════
@@ -36,14 +40,14 @@ const processSteps = [
     num: '02',
     title: 'Architecture',
     desc: 'Conception UI/UX sur-mesure, maquettes interactives, validation des parcours utilisateurs avec votre équipe.',
-    detail: 'Maquettes Figma exclusives',
+    detail: 'Maquettes Figma',
     icon: Layers,
   },
   {
     num: '03',
     title: 'Engineering',
     desc: 'Développement robuste, code propre, tests automatisés. Performances optimales même aux heures de pointe.',
-    detail: 'Next.js · React Native · Node',
+    detail: 'Next.js · React Native',
     icon: Code2,
   },
   {
@@ -58,25 +62,25 @@ const processSteps = [
 const projects = [
   {
     id: 'project-1',
-    title: 'Projet à venir',
+    title: 'Plateforme de réservation',
     category: 'SaaS',
-    desc: 'Notre première réalisation sera présentée ici très bientôt.',
+    desc: 'Une expérience de réservation fluide pour les restaurants étoilés.',
     image: null,
     link: null,
   },
   {
     id: 'project-2',
-    title: 'Projet à venir',
-    category: 'App Native',
-    desc: 'Un projet passionnant est actuellement en développement.',
+    title: 'Dashboard Gérant',
+    category: 'Web App',
+    desc: 'Gestion des commandes, stocks et analyse des performances en temps réel.',
     image: null,
     link: null,
   },
   {
     id: 'project-3',
-    title: 'Projet à venir',
-    category: 'Web App',
-    desc: 'Chaque projet est une collaboration unique et sur-mesure.',
+    title: 'Application Client',
+    category: 'App Native',
+    desc: 'Fidélisation et commande à table via QR code intelligent.',
     image: null,
     link: null,
   },
@@ -88,7 +92,7 @@ const techStack = [
   { icon: SiJavascript, name: 'JavaScript', color: '#F7DF1E' },
   { icon: SiTypescript, name: 'TypeScript', color: '#3178C6' },
   { icon: SiReact, name: 'React', color: '#61DAFB' },
-  { icon: SiNextdotjs, name: 'Next.js', color: '#000' },
+  { icon: SiNextdotjs, name: 'Next.js', color: '#ffffff' }, // White for dark mode stack
   { icon: SiNodedotjs, name: 'Node.js', color: '#339933' },
   { icon: SiPostgresql, name: 'PostgreSQL', color: '#4169E1' },
   { icon: SiSupabase, name: 'Supabase', color: '#3FCF8E' },
@@ -101,7 +105,7 @@ const techStack = [
 
 
 /* ═══════════════════════════════════════════════════════
-   SCROLL REVEAL
+   SCROLL REVEAL (Framer Motion)
    ═══════════════════════════════════════════════════════ */
 
 function Reveal({ children, className = '', delay = 0 }) {
@@ -123,7 +127,7 @@ function Reveal({ children, className = '', delay = 0 }) {
 
 
 /* ═══════════════════════════════════════════════════════
-   PROJECT CARD
+   PROJECT CARD (using SpotlightCard)
    ═══════════════════════════════════════════════════════ */
 
 function ProjectCard({ project }) {
@@ -136,58 +140,64 @@ function ProjectCard({ project }) {
   return (
     <Wrapper
       {...wrapperProps}
-      className={`group block overflow-hidden transition-all duration-500 ${
+      className={`group block h-full transition-transform duration-500 hover:-translate-y-1 ${
         hasContent ? 'cursor-pointer' : 'cursor-default'
       }`}
     >
-      {/* Image / Placeholder */}
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-zinc-200/80 bg-zinc-50 mb-4 transition-all duration-500 group-hover:border-zinc-300 group-hover:shadow-xl group-hover:shadow-zinc-200/50">
-        {project.image ? (
-          <>
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-              sizes="(max-width: 768px) 100vw, 33vw"
-              quality={90}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110">
-              <ArrowUpRight size={13} className="text-zinc-800" />
+      <SpotlightCard className="h-full p-4 sm:p-5 flex flex-col" spotlightColor="rgba(255, 255, 255, 0.08)" borderColor="rgba(255, 255, 255, 0.05)">
+        {/* Placeholder / Image Area */}
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800/50 mb-5 relative group/img">
+          {project.image ? (
+            <>
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover transition-transform duration-700 group-hover/img:scale-[1.04]"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                quality={90}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-500" />
+              <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-all duration-300 group-hover/img:scale-110">
+                <ArrowUpRight size={13} className="text-white" />
+              </div>
+            </>
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+               <div className="w-12 h-12 rounded-full bg-zinc-800/50 border border-zinc-700/50 flex items-center justify-center group-hover/img:bg-zinc-800 transition-colors">
+                 <Eye size={18} className="text-zinc-500 group-hover/img:text-zinc-300 transition-colors" />
+               </div>
+               <span className="text-[10px] text-zinc-500 font-medium tracking-widest uppercase">Bientôt disponible</span>
             </div>
-          </>
-        ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-            <div className="w-14 h-14 rounded-2xl border-2 border-dashed border-zinc-200 flex items-center justify-center group-hover:border-zinc-300 transition-colors">
-              <Plus size={22} className="text-zinc-300 group-hover:text-zinc-400 transition-colors" />
-            </div>
-            <span className="text-[11px] text-zinc-300 font-medium tracking-wide uppercase">Bientôt</span>
-          </div>
-        )}
-      </div>
-
-      {/* Info */}
-      <div className="px-1">
-        <div className="flex items-center gap-3 mb-1">
-          <h3 className="text-[15px] font-semibold text-zinc-900 tracking-tight">
-            {project.title}
-          </h3>
-          <span className="text-[10px] font-medium text-zinc-400 uppercase tracking-wider border border-zinc-200 px-2 py-0.5 rounded-full">
-            {project.category}
-          </span>
+          )}
         </div>
-        <p className="text-[13px] text-zinc-500 leading-relaxed">
-          {project.desc}
-        </p>
-      </div>
+
+        {/* Text Info */}
+        <div className="flex-1 flex flex-col justify-between px-1">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-[16px] font-semibold text-white tracking-tight">
+                {project.title}
+              </h3>
+            </div>
+            <p className="text-[13px] text-zinc-400 leading-relaxed">
+              {project.desc}
+            </p>
+          </div>
+          <div className="pt-4 mt-4 border-t border-zinc-800/50">
+             <span className="text-[10px] font-medium text-zinc-400 uppercase tracking-widest bg-zinc-900/50 border border-zinc-800 px-3 py-1 rounded-full">
+              {project.category}
+            </span>
+          </div>
+        </div>
+      </SpotlightCard>
     </Wrapper>
   );
 }
 
 
 /* ═══════════════════════════════════════════════════════
-   MAIN PAGE
+   MAIN COMPONENT
    ═══════════════════════════════════════════════════════ */
 
 export default function Home() {
@@ -197,13 +207,14 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('#hero');
 
+  // Handle Scroll Spy
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 50);
       const sections = ['contact', 'portfolio', 'stack', 'processus', 'hero'];
       for (const id of sections) {
         const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 250) {
+        if (el && window.scrollY >= el.offsetTop - 300) {
           setActiveSection(`#${id}`);
           break;
         }
@@ -246,7 +257,7 @@ export default function Home() {
     { label: 'Contact', href: '#contact' },
   ];
 
-  /* Logo element for PillNav */
+  /* Logo Element */
   const logoEl = (
     <div className="flex items-center gap-2">
       <div className="w-6 h-6 bg-zinc-900 rounded-md flex items-center justify-center">
@@ -258,9 +269,8 @@ export default function Home() {
     </div>
   );
 
-
   return (
-    <main className="min-h-screen bg-white text-zinc-900">
+    <main className="min-h-screen bg-zinc-950 text-white selection:bg-white/20">
 
       {/* ════════════════ FIXED NAVBAR - PILLNAV ════════════════ */}
       <motion.div
@@ -276,8 +286,8 @@ export default function Home() {
           logoAlt="Despa&co"
           items={navItems}
           activeHref={activeSection}
-          baseColor="#ffffff"
-          pillColor="#000000"
+          baseColor="#ffffff" // the navbar container itself stays white
+          pillColor="#000000" // the selected pill is black
           hoveredPillTextColor="#ffffff"
           pillTextColor="#71717a"
           theme="light"
@@ -292,8 +302,8 @@ export default function Home() {
         transition={{ duration: 0.5 }}
         className={`fixed top-0 inset-x-0 z-50 md:hidden transition-all duration-300 ${
           scrolled
-            ? 'bg-white/90 backdrop-blur-xl border-b border-zinc-100'
-            : 'bg-transparent'
+            ? 'bg-white/90 backdrop-blur-xl border-b border-zinc-200 shadow-sm'
+            : 'bg-white/80 backdrop-blur-md'
         }`}
       >
         <div className="flex items-center justify-between h-14 px-5">
@@ -301,7 +311,7 @@ export default function Home() {
             <div className="w-6 h-6 bg-zinc-900 rounded-md flex items-center justify-center">
               <span className="text-white text-[10px] font-bold">D</span>
             </div>
-            <span className="font-semibold text-[14px] tracking-tight">
+            <span className="font-semibold text-[14px] tracking-tight text-zinc-900">
               Despa<span className="text-zinc-400">&</span>co
             </span>
           </a>
@@ -322,7 +332,7 @@ export default function Home() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[60] bg-white md:hidden"
+            className="fixed inset-0 z-[60] bg-white text-zinc-900 md:hidden"
           >
             <div className="flex flex-col h-full px-6 py-5">
               <div className="flex justify-between items-center">
@@ -342,7 +352,7 @@ export default function Home() {
                 </button>
               </div>
 
-              <nav className="flex flex-col justify-center flex-1 gap-1">
+              <nav className="flex flex-col justify-center flex-1 gap-2">
                 {navItems.map((l, i) => (
                   <motion.a
                     key={l.href}
@@ -351,84 +361,81 @@ export default function Home() {
                     initial={{ opacity: 0, x: -16 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className={`text-[28px] font-medium tracking-tight px-4 py-3 rounded-2xl transition-colors ${
+                    className={`text-[32px] font-semibold tracking-tight py-2 transition-colors ${
                       activeSection === l.href
-                        ? 'text-zinc-900 bg-zinc-100'
-                        : 'text-zinc-400 active:bg-zinc-50'
+                        ? 'text-zinc-900'
+                        : 'text-zinc-300'
                     }`}
                   >
                     {l.label}
                   </motion.a>
                 ))}
               </nav>
-
-              <motion.a
-                href="#contact"
-                onClick={() => setMobileMenuOpen(false)}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="w-full py-4 bg-zinc-900 text-white text-[15px] font-medium rounded-2xl text-center active:scale-[0.98] transition-transform mb-4"
-              >
-                Démarrer un projet
-              </motion.a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
 
-      {/* ════════════════ HERO + PARTICLES ════════════════ */}
-      <section id="hero" className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden bg-zinc-950">
-        {/* Particles background */}
+      {/* ════════════════ 1. HERO (WHITE THEME + BLACK ANTIGRAVITY) ════════════════ */}
+      <section id="hero" className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden bg-white text-zinc-900">
+        
+        {/* Antigravity 3D background (Black particles reacting to mouse) */}
         <div className="absolute inset-0 z-0">
-          <Particles
-            particleColors={['#ffffff']}
-            particleCount={200}
-            particleSpread={10}
-            speed={0.1}
-            particleBaseSize={100}
-            moveParticlesOnHover
-            alphaParticles={false}
-            disableRotation={false}
-            pixelRatio={1}
-          />
+          <Suspense fallback={null}>
+             <Antigravity
+              count={250}
+              magnetRadius={6}
+              ringRadius={8}
+              waveSpeed={0.3}
+              waveAmplitude={0.8}
+              particleSize={1.2}
+              lerpSpeed={0.04}
+              color="#09090b"  // Black particles 
+              autoAnimate
+              particleVariance={1.2}
+              rotationSpeed={0.05}
+              depthFactor={0.8}
+              pulseSpeed={2}
+              particleShape="capsule"
+              fieldStrength={10}
+            />
+          </Suspense>
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 w-full max-w-3xl mx-auto px-6 text-center">
+        {/* Hero Content */}
+        <div className="relative z-10 w-full max-w-4xl mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="text-[11px] sm:text-[12px] font-medium text-zinc-400 uppercase tracking-[0.2em] mb-8">
+            <p className="inline-block text-[11px] sm:text-[12px] font-medium text-zinc-500 uppercase tracking-[0.25em] mb-8 border border-zinc-200 bg-white/50 backdrop-blur-sm px-4 py-1.5 rounded-full">
               Digital Agency
             </p>
 
-            <h1 className="text-[2.25rem] sm:text-[3.25rem] md:text-[4rem] font-semibold leading-[1.05] tracking-[-0.03em] text-white mb-6">
+            <h1 className="text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] font-semibold leading-[1.05] tracking-[-0.03em] text-zinc-900 mb-6 drop-shadow-sm">
               L'ingénierie digitale
               <br />
               au service de la
               <br />
-              <span className="text-zinc-500">restauration.</span>
+              <span className="text-zinc-400">restauration.</span>
             </h1>
 
-            <p className="text-[15px] sm:text-[17px] text-zinc-400 max-w-md mx-auto mb-10 leading-relaxed font-light">
-              Apps natives, SaaS et automatisation
-              pour votre établissement.
+            <p className="text-[15px] sm:text-[17px] text-zinc-500 max-w-lg mx-auto mb-10 leading-relaxed font-light">
+              Nous concevons des applications natives, du SaaS et des automatisations sur-mesure pour les établissements exigeants.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href="#contact"
-                className="w-full sm:w-auto px-7 py-3 text-[14px] font-medium text-black bg-white rounded-full hover:bg-zinc-200 active:scale-[0.97] transition-all"
+                className="w-full sm:w-auto px-8 py-3.5 text-[14px] font-medium text-white bg-zinc-900 rounded-full shadow-xl shadow-zinc-900/10 hover:bg-zinc-800 active:scale-[0.97] transition-all"
               >
                 Démarrer un projet →
               </a>
               <a
                 href="#processus"
-                className="w-full sm:w-auto px-7 py-3 text-[14px] font-medium text-zinc-300 border border-zinc-700/50 rounded-full hover:bg-zinc-900 hover:text-white active:scale-[0.97] transition-all"
+                className="w-full sm:w-auto px-8 py-3.5 text-[14px] font-medium text-zinc-600 bg-white border border-zinc-200 rounded-full hover:bg-zinc-50 hover:text-zinc-900 active:scale-[0.97] transition-all"
               >
                 Comment ça marche
               </a>
@@ -454,47 +461,49 @@ export default function Home() {
       </section>
 
 
-      {/* ════════════════ PROCESSUS ════════════════ */}
-      <section id="processus" className="py-20 sm:py-28 md:py-36">
-        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+      {/* ════════════════ 2. PROCESSUS (BLACK THEME + SPOTLIGHT CARDS) ════════════════ */}
+      <section id="processus" className="py-24 sm:py-32 md:py-40 bg-zinc-950 relative border-t border-zinc-900">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 relative z-10">
           <Reveal>
-            <div className="text-center mb-16 sm:mb-20">
-              <p className="text-[11px] sm:text-[12px] font-medium text-zinc-400 uppercase tracking-[0.2em] mb-4">
-                Notre approche
-              </p>
-              <h2 className="text-[1.75rem] sm:text-[2.25rem] md:text-[2.75rem] font-semibold tracking-[-0.02em] text-zinc-900 leading-tight">
-                Un processus pensé
+            <div className="text-center mb-16 sm:mb-24">
+              <h2 className="text-[2rem] sm:text-[2.5rem] md:text-[3rem] font-semibold tracking-[-0.02em] text-white leading-tight">
+                L'excellence a
                 <br />
-                pour votre succès.
+                <span className="text-zinc-600">une méthode.</span>
               </h2>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {processSteps.map((step, i) => {
               const Icon = step.icon;
               return (
-                <Reveal key={i} delay={i * 0.08}>
-                  <div className="relative bg-zinc-50 rounded-3xl p-7 sm:p-8 group hover:bg-zinc-100/80 transition-all duration-500 h-full border border-transparent hover:border-zinc-200/50">
-                    <div className="flex items-center justify-between mb-5">
-                      <div className="w-10 h-10 rounded-2xl bg-white border border-zinc-200/80 flex items-center justify-center group-hover:bg-zinc-900 group-hover:border-zinc-900 transition-all duration-500">
-                        <Icon size={16} className="text-zinc-400 group-hover:text-white transition-colors duration-500" />
+                <Reveal key={i} delay={i * 0.1}>
+                  <SpotlightCard className="h-full p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                      <div className="flex flex-col gap-6 mb-8">
+                        <span className="text-[48px] font-bold text-zinc-800 leading-none tracking-tighter">
+                          {step.num}
+                        </span>
+                        <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+                          <Icon size={20} className="text-zinc-400" />
+                        </div>
                       </div>
-                      <span className="text-[40px] font-bold text-zinc-100 group-hover:text-zinc-200 transition-colors leading-none tracking-tighter">
-                        {step.num}
-                      </span>
+
+                      <h3 className="text-[20px] font-semibold text-white mb-3 tracking-tight">
+                        {step.title}
+                      </h3>
+                      <p className="text-[14px] text-zinc-400 leading-relaxed mb-6 font-light">
+                        {step.desc}
+                      </p>
                     </div>
 
-                    <h3 className="text-[18px] font-semibold text-zinc-900 mb-2 tracking-tight">
-                      {step.title}
-                    </h3>
-                    <p className="text-[13px] sm:text-[14px] text-zinc-500 leading-relaxed mb-4">
-                      {step.desc}
-                    </p>
-                    <span className="inline-block text-[11px] font-medium text-zinc-400 bg-white border border-zinc-200/80 px-3 py-1 rounded-full">
-                      {step.detail}
-                    </span>
-                  </div>
+                    <div className="pt-4 border-t border-zinc-900">
+                      <span className="inline-block text-[11px] font-medium text-zinc-500 uppercase tracking-widest">
+                        → {step.detail}
+                      </span>
+                    </div>
+                  </SpotlightCard>
                 </Reveal>
               );
             })}
@@ -503,36 +512,33 @@ export default function Home() {
       </section>
 
 
-      {/* ════════════════ STACK — MARQUEE ════════════════ */}
-      <section id="stack" className="py-20 sm:py-28 md:py-36 border-t border-zinc-100">
-        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+      {/* ════════════════ 3. STACK (BLACK THEME + MARQUEE) ════════════════ */}
+      <section id="stack" className="py-20 sm:py-28 bg-zinc-950 border-t border-zinc-900 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
           <Reveal>
             <div className="text-center mb-14 sm:mb-20">
-              <p className="text-[11px] sm:text-[12px] font-medium text-zinc-400 uppercase tracking-[0.2em] mb-4">
-                Technologies
-              </p>
-              <h2 className="text-[1.75rem] sm:text-[2.25rem] md:text-[2.75rem] font-semibold tracking-[-0.02em] text-zinc-900 leading-tight">
-                Stack moderne,
-                <br />
-                résultats concrets.
+              <h2 className="text-[1.75rem] sm:text-[2.25rem] font-semibold tracking-[-0.02em] text-white leading-tight">
+                La tech derrière 
+                <span className="text-zinc-600 block mt-1">la performance.</span>
               </h2>
             </div>
           </Reveal>
 
-          <Reveal delay={0.15}>
+          <Reveal delay={0.1}>
             <div className="relative py-6">
-              <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 z-10 bg-gradient-to-r from-white to-transparent" />
-              <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 z-10 bg-gradient-to-l from-white to-transparent" />
+              {/* Fade gradients */}
+              <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 z-10 bg-gradient-to-r from-zinc-950 to-transparent pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 z-10 bg-gradient-to-l from-zinc-950 to-transparent pointer-events-none" />
 
-              <Marquee speed={30} pauseOnHover>
+              <Marquee speed={35} pauseOnHover>
                 {techStack.map((tech, i) => {
                   const Icon = tech.icon;
                   return (
-                    <div key={i} className="flex flex-col items-center gap-3 mx-5 sm:mx-7 group cursor-default">
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-zinc-50 border border-zinc-200/80 flex items-center justify-center group-hover:bg-white group-hover:border-zinc-300 group-hover:shadow-lg group-hover:shadow-zinc-100 group-hover:scale-110 transition-all duration-300">
-                        <Icon size={24} color={tech.color} />
+                    <div key={i} className="flex flex-col items-center gap-4 mx-6 sm:mx-8 group cursor-default">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-zinc-900/50 border border-zinc-800/50 flex items-center justify-center group-hover:bg-zinc-800 transition-all duration-300">
+                        <Icon size={28} className="text-zinc-500 group-hover:text-white transition-colors duration-300 filter grayscale group-hover:grayscale-0" style={{ color: typeof Icon === "string" ? "white" : undefined }} color={tech.color} />
                       </div>
-                      <span className="text-[10px] sm:text-[11px] text-zinc-400 group-hover:text-zinc-600 transition-colors whitespace-nowrap font-medium">
+                      <span className="text-[11px] sm:text-[12px] text-zinc-600 group-hover:text-zinc-400 transition-colors whitespace-nowrap font-medium tracking-wide">
                         {tech.name}
                       </span>
                     </div>
@@ -545,28 +551,38 @@ export default function Home() {
       </section>
 
 
-      {/* ════════════════ PORTFOLIO ════════════════ */}
-      <section id="portfolio" className="py-20 sm:py-28 md:py-36 bg-zinc-50">
-        <div className="max-w-5xl mx-auto px-5 sm:px-6">
+      {/* ════════════════ 4. PORTFOLIO (BLACK THEME + LIGHTRAYS) ════════════════ */}
+      <section id="portfolio" className="relative py-24 sm:py-32 md:py-40 bg-black border-t border-zinc-900 overflow-hidden">
+        {/* Deep volumetric LightRays in background */}
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#ffffff"
+          raysSpeed={0.5}
+          lightSpread={0.8}
+          rayLength={2.5}
+          followMouse={true}
+          mouseInfluence={0.15}
+          fadeDistance={0.7}
+          className="opacity-50 mix-blend-screen"
+        />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6">
           <Reveal>
-            <div className="text-center mb-14 sm:mb-20">
-              <p className="text-[11px] sm:text-[12px] font-medium text-zinc-400 uppercase tracking-[0.2em] mb-4">
-                Réalisations
+            <div className="text-center mb-16 sm:mb-24">
+               <p className="inline-block text-[11px] font-medium text-white/50 uppercase tracking-[0.25em] mb-6 border border-white/10 bg-white/5 px-4 py-1.5 rounded-full">
+                Portfolio
               </p>
-              <h2 className="text-[1.75rem] sm:text-[2.25rem] md:text-[2.75rem] font-semibold tracking-[-0.02em] text-zinc-900 leading-tight">
-                Nos projets,
+              <h2 className="text-[2.25rem] sm:text-[3rem] md:text-[3.5rem] font-semibold tracking-[-0.02em] text-white leading-tight">
+                Une sélection
                 <br />
-                <span className="text-zinc-300">bientôt ici.</span>
+                <span className="text-white/30">de projets.</span>
               </h2>
-              <p className="text-[14px] sm:text-[15px] text-zinc-400 mt-4 max-w-md mx-auto leading-relaxed">
-                Nos premières réalisations seront présentées très prochainement. Chaque projet est une collaboration unique.
-              </p>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {projects.map((project, i) => (
-              <Reveal key={project.id} delay={i * 0.1}>
+              <Reveal key={project.id} delay={i * 0.15}>
                 <ProjectCard project={project} />
               </Reveal>
             ))}
@@ -575,109 +591,122 @@ export default function Home() {
       </section>
 
 
-      {/* ════════════════ CONTACT ════════════════ */}
-      <section id="contact" className="py-20 sm:py-28 md:py-36">
-        <div className="max-w-xl mx-auto px-5 sm:px-6">
+      {/* ════════════════ 5. CONTACT (BLACK THEME + PARTICLES) ════════════════ */}
+      <section id="contact" className="relative py-24 sm:py-32 md:py-40 bg-[#020202] border-t border-zinc-900 overflow-hidden">
+        
+        {/* Custom React-Bits-style Particles (White particles on deep black) */}
+        <div className="absolute inset-0 z-0">
+          <Particles
+            particleColors={['#ffffff']}
+            particleCount={250}
+            particleSpread={12}
+            speed={0.08}
+            particleBaseSize={80}
+            moveParticlesOnHover={true}
+            alphaParticles={true}
+            disableRotation={false}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-xl mx-auto px-5 sm:px-6">
           <Reveal>
-            <div className="text-center mb-10 sm:mb-14">
-              <p className="text-[11px] sm:text-[12px] font-medium text-zinc-400 uppercase tracking-[0.2em] mb-4">
-                Contact
-              </p>
-              <h2 className="text-[1.75rem] sm:text-[2.25rem] md:text-[2.75rem] font-semibold tracking-[-0.02em] text-zinc-900 leading-tight mb-3">
-                Parlons de
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-[2rem] sm:text-[2.5rem] md:text-[3rem] font-semibold tracking-[-0.02em] text-white leading-tight mb-4">
+                Lançons votre
                 <br />
-                votre projet.
+                projet.
               </h2>
-              <p className="text-[14px] sm:text-[15px] text-zinc-400 leading-relaxed">
-                Décrivez votre besoin. Réponse garantie sous 48h.
+              <p className="text-[15px] sm:text-[16px] text-zinc-400 font-light leading-relaxed">
+                Remplissez les informations ci-dessous. Nous vous recontacterons sous 48h.
               </p>
             </div>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <input
-                  type="text"
-                  required
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full px-4 py-3 text-[14px] bg-zinc-100/50 border border-zinc-200 rounded-2xl text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all shadow-sm"
-                  placeholder="Votre nom"
-                />
-                <input
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full px-4 py-3 text-[14px] bg-zinc-100/50 border border-zinc-200 rounded-2xl text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all shadow-sm"
-                  placeholder="Votre email"
-                />
-              </div>
+             <SpotlightCard className="p-1" spotlightColor="rgba(255,255,255,0.06)" borderColor="rgba(255,255,255,0.05)">
+              <form onSubmit={handleSubmit} className="p-6 sm:p-8 bg-zinc-950/80 backdrop-blur-xl rounded-2xl space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    className="w-full px-5 py-4 text-[14px] bg-zinc-900 border border-zinc-800 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:bg-zinc-800/80 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 transition-all font-light"
+                    placeholder="Votre nom"
+                  />
+                  <input
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className="w-full px-5 py-4 text-[14px] bg-zinc-900 border border-zinc-800 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:bg-zinc-800/80 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 transition-all font-light"
+                    placeholder="Votre email"
+                  />
+                </div>
 
-              <select
-                value={form.service}
-                onChange={(e) => setForm({ ...form, service: e.target.value })}
-                className="w-full px-4 py-3 text-[14px] bg-zinc-100/50 border border-zinc-200 rounded-2xl text-zinc-900 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all appearance-none cursor-pointer shadow-sm"
-              >
-                <option value="">Type de service</option>
-                <option value="saas">SaaS / Plateforme</option>
-                <option value="app-native">Application Native</option>
-                <option value="site-web">Site Web</option>
-                <option value="automatisation">Automatisation</option>
-                <option value="autre">Autre</option>
-              </select>
-
-              <textarea
-                required
-                rows={4}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="w-full px-4 py-3 text-[14px] bg-zinc-100/50 border border-zinc-200 rounded-2xl text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:bg-white focus:border-zinc-300 focus:ring-2 focus:ring-zinc-100 transition-all resize-none shadow-sm"
-                placeholder="Décrivez votre projet..."
-              />
-
-              <button
-                type="submit"
-                disabled={formState !== 'idle'}
-                className="w-full py-3.5 text-[14px] font-medium text-white bg-zinc-900 rounded-2xl hover:bg-zinc-800 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-              >
-                {formState === 'loading' && <Loader2 size={15} className="animate-spin" />}
-                {formState === 'success' && <CheckCircle2 size={15} />}
-                {formState === 'idle' && <Send size={15} />}
-                {formState === 'loading' ? 'Envoi...' : formState === 'success' ? 'Message envoyé !' : 'Envoyer le message'}
-              </button>
-
-              {formState === 'success' && (
-                <motion.p
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-center text-[13px] text-emerald-600 font-medium"
+                <select
+                  value={form.service}
+                  onChange={(e) => setForm({ ...form, service: e.target.value })}
+                  className="w-full px-5 py-4 text-[14px] bg-zinc-900 border border-zinc-800 rounded-xl text-white focus:outline-none focus:bg-zinc-800/80 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 transition-all appearance-none cursor-pointer font-light"
                 >
-                  Merci ! Nous vous recontacterons sous 48h.
-                </motion.p>
-              )}
-            </form>
+                  <option value="" className="text-zinc-500">Intéressé par...</option>
+                  <option value="saas">SaaS / Solution Métier</option>
+                  <option value="app-native">Application Native (iOS/Android)</option>
+                  <option value="site-web">Site Web Premium</option>
+                  <option value="automatisation">Automatisation process</option>
+                </select>
+
+                <textarea
+                  required
+                  rows={4}
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  className="w-full px-5 py-4 text-[14px] bg-zinc-900 border border-zinc-800 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:bg-zinc-800/80 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 transition-all resize-none font-light"
+                  placeholder="Décrivez brièvement votre projet..."
+                />
+
+                <button
+                  type="submit"
+                  disabled={formState !== 'idle'}
+                  className="w-full py-4 text-[14px] font-medium text-black bg-white rounded-xl hover:bg-zinc-200 hover:scale-[1.01] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {formState === 'loading' && <Loader2 size={16} className="animate-spin" />}
+                  {formState === 'success' && <CheckCircle2 size={16} />}
+                  {formState === 'idle' && <Send size={16} />}
+                  {formState === 'loading' ? 'Envoi...' : formState === 'success' ? 'Message envoyé' : 'Demander un devis'}
+                </button>
+
+                {formState === 'success' && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center text-[13px] text-emerald-400 font-medium"
+                  >
+                    Nous avons bien reçu votre demande.
+                  </motion.p>
+                )}
+              </form>
+            </SpotlightCard>
           </Reveal>
         </div>
       </section>
 
 
       {/* ════════════════ FOOTER ════════════════ */}
-      <footer className="py-8 sm:py-10 border-t border-zinc-100">
-        <div className="max-w-5xl mx-auto px-5 sm:px-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="py-10 bg-black border-t border-zinc-900">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
-              <div className="w-5 h-5 bg-zinc-900 rounded flex items-center justify-center">
-                <span className="text-white text-[8px] font-bold">D</span>
+              <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
+                <span className="text-black text-[10px] font-bold leading-none">D</span>
               </div>
-              <span className="text-[13px] font-medium text-zinc-900">
+              <span className="text-[14px] font-semibold text-white tracking-tight">
                 Despa<span className="text-zinc-400">&</span>co
               </span>
             </div>
 
-            <p className="text-[11px] text-zinc-300">
-              © {new Date().getFullYear()} Despa&co · Fait avec rigueur
+            <p className="text-[12px] text-zinc-500 font-medium tracking-wide">
+              © {new Date().getFullYear()} Despa&co · Tous droits réservés
             </p>
           </div>
         </div>
@@ -688,13 +717,13 @@ export default function Home() {
       <AnimatePresence>
         {scrolled && (
           <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-5 right-5 z-50 w-9 h-9 rounded-full bg-zinc-900 text-white flex items-center justify-center shadow-lg shadow-zinc-900/20 hover:bg-zinc-800 active:scale-90 transition-all cursor-pointer"
+            className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-white text-black flex items-center justify-center shadow-2xl hover:bg-zinc-200 active:scale-90 transition-all cursor-pointer border border-zinc-200"
           >
-            <ChevronUp size={15} />
+            <ChevronUp size={18} strokeWidth={2.5} />
           </motion.button>
         )}
       </AnimatePresence>
