@@ -26,14 +26,11 @@ export default function PillNav({
   // Update pill position
   const movePill = (el) => {
     if (!el || !pillRef.current || !navRef.current) return;
-    const navRect = navRef.current.getBoundingClientRect();
-    const itemRect = el.getBoundingClientRect();
-
     gsap.to(pillRef.current, {
-      x: itemRect.left - navRect.left - 8,
-      width: itemRect.width + 16,
-      duration: 0.35,
-      ease,
+      x: el.offsetLeft,
+      width: el.offsetWidth,
+      duration: 0.4,
+      ease: 'power3.out',
     });
   };
 
@@ -126,7 +123,7 @@ export default function PillNav({
       {/* Animated pill behind active item */}
       <div
         ref={pillRef}
-        className="absolute top-1.5 bottom-1.5 rounded-full pointer-events-none"
+        className="absolute left-0 top-1.5 bottom-1.5 rounded-full pointer-events-none"
         style={{ background: pillColor, transition: 'none' }}
       />
 
@@ -149,7 +146,7 @@ export default function PillNav({
           ref={(el) => (itemRefs.current[i] = el)}
           onClick={(e) => handleClick(e, item.href)}
           onMouseEnter={() => handleMouseEnter(i)}
-          className="relative z-10 text-[13px] font-medium px-3.5 py-1.5 rounded-full transition-none whitespace-nowrap cursor-pointer select-none"
+          className="relative z-10 text-[13px] font-medium px-4 py-1.5 rounded-full transition-none whitespace-nowrap cursor-pointer select-none block"
           style={{
             color: item.href === currentActive ? hoveredPillTextColor : pillTextColor,
           }}
