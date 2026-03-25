@@ -211,7 +211,7 @@ export default function Home() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 50);
-      const sections = ['contact', 'portfolio', 'stack', 'a-propos', 'processus', 'hero'];
+      const sections = ['contact', 'portfolio', 'stack', 'processus', 'hero'];
       for (const id of sections) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 300) {
@@ -251,8 +251,8 @@ export default function Home() {
 
   const navItems = [
     { label: 'Accueil', href: '#hero' },
-    { label: 'À propos', href: '#a-propos' },
     { label: 'Processus', href: '#processus' },
+    { label: 'Stack', href: '#stack' },
     { label: 'Portfolio', href: '#portfolio' },
     { label: 'Contact', href: '#contact' },
   ];
@@ -453,110 +453,6 @@ export default function Home() {
       </section>
 
 
-      {/* ════════════════ 1bis. À PROPOS (WHITE THEME — SEO LOCAL) ════════════════ */}
-      <section id="a-propos" aria-label="À propos de Despa&co" className="bg-white py-24 sm:py-32 md:py-40 border-t border-zinc-100 text-zinc-900">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-
-            {/* Left — Text Content */}
-            <Reveal>
-              <div>
-                <p className="text-[11px] font-medium text-zinc-400 uppercase tracking-[0.25em] mb-8">
-                  À propos
-                </p>
-                <h2 className="text-[2rem] sm:text-[2.5rem] md:text-[3rem] font-semibold tracking-[-0.02em] leading-[1.1] text-zinc-900 mb-8">
-                  Une agence digitale
-                  <br />
-                  <span className="text-zinc-400">basée à Verviers.</span>
-                </h2>
-
-                {/* SEO-rich body copy — dense and keyword-focused */}
-                <div className="space-y-5 text-[15px] sm:text-[16px] text-zinc-500 leading-relaxed font-light max-w-xl">
-                  <p>
-                    <strong className="text-zinc-700 font-medium">Despa&co</strong> est une agence de développement
-                    web et mobile installée à <strong className="text-zinc-700 font-medium">Verviers</strong>, dans la
-                    province de <strong className="text-zinc-700 font-medium">Liège</strong> en Belgique.
-                    Nous concevons des solutions digitales sur-mesure pour les professionnels de la restauration
-                    qui souhaitent transformer leur présence digitale.
-                  </p>
-                  <p>
-                    De la création d'un <strong className="text-zinc-700 font-medium">site web restaurant</strong> à
-                    Liège au développement d'une <strong className="text-zinc-700 font-medium">application native iOS/Android</strong>,
-                    en passant par des <strong className="text-zinc-700 font-medium">dashboards SaaS</strong> et
-                    l'automatisation des processus, nous accompagnons des établissements dans toute la Wallonie
-                    et au-delà : Bruxelles, France, Luxembourg, Suisse.
-                  </p>
-                  <p>
-                    Notre mission : allier ingénierie de haut niveau et design éditorial de luxe pour offrir
-                    aux restaurateurs des outils dignes des meilleurs établissements du monde.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Right — Stats & Services */}
-            <Reveal delay={0.15}>
-              <div className="space-y-10">
-
-                {/* Stats */}
-                <div className="grid grid-cols-2 gap-6 sm:gap-8">
-                  {[
-                    { val: '100%', label: 'Projets livrés en délai' },
-                    { val: '48h', label: 'Délai de réponse garanti' },
-                    { val: 'B2B', label: 'Accompagnement sur-mesure' },
-                    { val: '🇧🇪', label: 'Basés à Verviers, Liège' },
-                  ].map((s, i) => (
-                    <div key={i} className="p-6 rounded-2xl bg-zinc-50 border border-zinc-100">
-                      <p className="text-[2rem] font-bold tracking-tight text-zinc-900 leading-none mb-2">{s.val}</p>
-                      <p className="text-[13px] text-zinc-500 font-light leading-snug">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Service list */}
-                <div>
-                  <p className="text-[12px] font-medium text-zinc-400 uppercase tracking-widest mb-5">
-                    Nos expertises
-                  </p>
-                  <ul className="space-y-3" role="list">
-                    {[
-                      'Développement web Next.js & React — Belgique',
-                      'Applications natives iOS/Android (restaurant)',
-                      'SaaS de réservation & gestion restaurant',
-                      'Dashboard gérant & analytics',
-                      'Automatisation & intégrations API',
-                      'Référencement SEO local Liège & Verviers',
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-[14px] text-zinc-600 font-light">
-                        <span className="w-4 h-4 rounded-full bg-zinc-900 flex-shrink-0 flex items-center justify-center">
-                          <svg width="8" height="8" viewBox="0 0 8 8" fill="none" aria-hidden="true">
-                            <path d="M1.5 4L3.5 6L6.5 2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        </span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Location CTA */}
-                <div className="p-5 rounded-2xl border border-zinc-200 bg-zinc-50 flex items-start gap-4">
-                  <div className="text-2xl mt-0.5" aria-hidden="true">📍</div>
-                  <div>
-                    <p className="text-[14px] font-semibold text-zinc-800 mb-1">
-                      Agence digitale — Verviers, Liège (Belgique)
-                    </p>
-                    <p className="text-[13px] text-zinc-500 font-light leading-snug">
-                      Interventions dans toute la Belgique (Bruxelles, Namur, Charleroi)
-                      et à l'international.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
 
 
       {/* ════════════════ 2. PROCESSUS (BLACK THEME + SPOTLIGHT CARDS) ════════════════ */}
@@ -794,13 +690,12 @@ export default function Home() {
       <footer className="py-10 bg-black border-t border-zinc-900">
         <div className="max-w-6xl mx-auto px-5 sm:px-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
-                <span className="text-black text-[10px] font-bold leading-none">D</span>
-              </div>
-              <span className="text-[14px] font-semibold text-white tracking-tight">
-                Despa<span className="text-zinc-400">&</span>co
-              </span>
+            <div className="flex items-center gap-3">
+              <a href="/a-propos" className="text-[14px] font-semibold text-white tracking-tight hover:text-zinc-300 transition-colors">
+                Despa<span className="text-zinc-500">&</span>co
+              </a>
+              <span className="text-zinc-700">·</span>
+              <span className="text-[12px] text-zinc-500 font-light">Verviers, Belgique</span>
             </div>
 
             <p className="text-[12px] text-zinc-500 font-medium tracking-wide">
