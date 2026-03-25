@@ -219,7 +219,7 @@ function ProjectCard({ project }) {
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formState, setFormState] = useState('idle');
-  const [form, setForm] = useState({ name: '', email: '', service: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('#hero');
 
@@ -250,6 +250,7 @@ export default function Home() {
         body: JSON.stringify({
           name: form.name,
           email: form.email,
+          phone: form.phone || 'Non renseigné',
           service: form.service,
           message: form.message,
           _subject: `[Despa&co] ${form.name} — ${form.service}`,
@@ -259,7 +260,7 @@ export default function Home() {
         setFormState('success');
         setTimeout(() => {
           setFormState('idle');
-          setForm({ name: '', email: '', service: '', message: '' });
+          setForm({ name: '', email: '', phone: '', service: '', message: '' });
         }, 4000);
       } else setFormState('idle');
     } catch { setFormState('idle'); }
@@ -653,6 +654,14 @@ export default function Home() {
                     placeholder="Votre email"
                   />
                 </div>
+
+                <input
+                  type="tel"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  className="w-full px-5 py-4 text-[14px] bg-zinc-900 border border-zinc-800 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:bg-zinc-800/80 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 transition-all font-light"
+                  placeholder="Téléphone (optionnel)"
+                />
 
                 <select
                   value={form.service}
