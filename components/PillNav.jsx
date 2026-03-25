@@ -60,6 +60,10 @@ export default function PillNav({
   }, [activeHref]);
 
   const handleClick = (e, href) => {
+    // For page routes (not anchors), let the browser navigate normally
+    if (!href.startsWith('#')) {
+      return;
+    }
     e.preventDefault();
     setCurrentActive(href);
     const idx = items.findIndex((it) => it.href === href);
