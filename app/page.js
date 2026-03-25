@@ -251,8 +251,8 @@ export default function Home() {
 
   const navItems = [
     { label: 'Accueil', href: '#hero' },
+    { label: 'À propos', href: '/a-propos' },
     { label: 'Processus', href: '#processus' },
-    { label: 'Stack', href: '#stack' },
     { label: 'Portfolio', href: '#portfolio' },
     { label: 'Contact', href: '#contact' },
   ];
