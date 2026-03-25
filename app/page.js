@@ -12,7 +12,10 @@ import {
 import {
   SiReact, SiNextdotjs, SiTailwindcss, SiSupabase, SiGit,
   SiHtml5, SiCss3, SiJavascript, SiTypescript, SiNodedotjs,
-  SiPostgresql, SiDocker, SiStripe, SiAmazonwebservices
+  SiPostgresql, SiDocker, SiStripe, SiAmazonwebservices,
+  SiNotion, SiVercel, SiNetlify, SiGithub, SiFramer,
+  SiMongodb, SiFirebase, SiExpress, SiPrisma, SiGraphql,
+  SiSwift, SiFlutter, SiFigma
 } from 'react-icons/si';
 import { Marquee } from '@/components/ui/marquee';
 import PillNav from '@/components/PillNav';
@@ -40,14 +43,14 @@ const processSteps = [
     num: '02',
     title: 'Architecture',
     desc: 'Conception UI/UX sur-mesure, maquettes interactives, validation des parcours utilisateurs avec votre équipe.',
-    detail: 'Maquettes Figma',
+    detail: 'Prototypes',
     icon: Layers,
   },
   {
     num: '03',
     title: 'Engineering',
     desc: 'Développement robuste, code propre, tests automatisés. Performances optimales même aux heures de pointe.',
-    detail: 'Next.js · React Native',
+    detail: 'React · Node.js',
     icon: Code2,
   },
   {
@@ -92,13 +95,26 @@ const techStack = [
   { icon: SiJavascript, name: 'JavaScript', color: '#F7DF1E' },
   { icon: SiTypescript, name: 'TypeScript', color: '#3178C6' },
   { icon: SiReact, name: 'React', color: '#61DAFB' },
-  { icon: SiNextdotjs, name: 'Next.js', color: '#ffffff' }, // White for dark mode stack
+  { icon: SiNextdotjs, name: 'Next.js', color: '#ffffff' },
   { icon: SiNodedotjs, name: 'Node.js', color: '#339933' },
+  { icon: SiExpress, name: 'Express', color: '#ffffff' },
   { icon: SiPostgresql, name: 'PostgreSQL', color: '#4169E1' },
+  { icon: SiMongodb, name: 'MongoDB', color: '#47A248' },
   { icon: SiSupabase, name: 'Supabase', color: '#3FCF8E' },
+  { icon: SiFirebase, name: 'Firebase', color: '#FFCA28' },
+  { icon: SiPrisma, name: 'Prisma', color: '#ffffff' },
+  { icon: SiGraphql, name: 'GraphQL', color: '#E10098' },
   { icon: SiTailwindcss, name: 'Tailwind', color: '#06B6D4' },
+  { icon: SiFramer, name: 'Framer Motion', color: '#0055FF' },
+  { icon: SiSwift, name: 'Swift', color: '#F05138' },
+  { icon: SiFlutter, name: 'Flutter', color: '#02569B' },
+  { icon: SiFigma, name: 'Figma', color: '#F24E1E' },
   { icon: SiGit, name: 'Git', color: '#F05032' },
+  { icon: SiGithub, name: 'GitHub', color: '#ffffff' },
   { icon: SiDocker, name: 'Docker', color: '#2496ED' },
+  { icon: SiVercel, name: 'Vercel', color: '#ffffff' },
+  { icon: SiNetlify, name: 'Netlify', color: '#00C7B7' },
+  { icon: SiNotion, name: 'Notion', color: '#ffffff' },
   { icon: SiStripe, name: 'Stripe', color: '#635BFF' },
   { icon: SiAmazonwebservices, name: 'AWS', color: '#FF9900' },
 ];
@@ -228,7 +244,7 @@ export default function Home() {
     e.preventDefault();
     setFormState('loading');
     try {
-      const res = await fetch('https://formsubmit.co/ajax/9614c88d9c38e36384389a0dc6810357', {
+      const res = await fetch('https://formsubmit.co/ajax/despaco.liege@gmail.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
